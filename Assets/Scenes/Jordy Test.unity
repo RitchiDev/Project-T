@@ -368,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80809afd08e5257488f4e17acf7c86d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkMesh: {fileID: 1615198583688864, guid: 76e3389a52ca7424886d600b65557b7d, type: 3}
+  chunkMesh: {fileID: 1302979558064556, guid: 92a9feb98116e4b48919dc386dbc3062, type: 3}
 --- !u!23 &883432063
 MeshRenderer:
   m_ObjectHideFlags: 0
