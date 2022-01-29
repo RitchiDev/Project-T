@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f3bda337b3aca4c8b098225efd9dc6, type: 3}
+  m_Name: Player
+  m_EditorClassIdentifier: 
+  m_CanDie: 0
+  m_StartHealth: 6
+  m_MaxArmor: 5
+  m_TimeInvincible: 0.6
+  m_CanSqueezeSprite: 1
+  m_JumpSqueezeSpriteSize: {x: 0.6, y: 1.1}
+  m_JumpSqueezeSpriteLerp: 0.115
+  m_JumpUnSqueezeSpriteLerp: 0.1
+  m_HitGroundSqueezeSpriteSize: {x: 1.15, y: 0.95}
+  m_HitGroundSqueezeSpriteLerp: 0.05
+  m_HitGroundUnSqueezeSpriteLerp: 0.05
+  m_CanMove: 1
+  m_RunSpeed: 7
+  m_StickTime: 0.5
+  m_CanJump: 1
+  m_CanWallJump: 1
+  m_CanClimbJump: 1
+  m_CanCoyoteJump: 1
+  m_CanLedgeHop: 1
+  m_CanWallJumpDirectionBuffer: 1
+  m_JumpForce: 12
+  m_JumpGraceTime: 0.05
+  m_CoyoteTime: 0.1
+  m_LowJumpMultiplier: 0.031
+  m_FallMultiplier: 0.05
+  m_DefaultGravity: 2.5
+  m_WallJumpLerp: 4
+  m_BlockRunTime: 0.15
+  m_NeutralWallJumpMultiplier: {x: 0.4, y: 1}
+  m_PushWallJumpMultiplier: {x: 1, y: 1}
+  m_CanClimb: 1
+  m_ClimbUpSpeed: 3.5
+  m_ClimbDownSpeed: 5
+  m_BlockClimbTime: 0.15
+  m_LedgeHopMultiplier: {x: 0.4, y: 1.35}
+  m_ClimbJumpMultiplier: {x: 0.5, y: 1.05}
+  m_CanWallSlide: 1
+  m_SlideSpeed: 2
+  m_SlideSpeedMultiplier: 3
+  m_SlideThreshold: 0.25
+  m_CanDash: 1
+  m_IsInvincibleDuringDash: 1
+  m_MaxDashes: 1
+  m_DashSpeed: 32
+  m_DashTime: 0.2
+  m_CanPush: 0
+  m_PushForce: 6
+  m_CanDuck: 0
+  m_CanDuckAttack: 0
+  m_CanStomp: 0
+  m_StompDamage: 0
+  m_GroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  m_PlatformLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  m_ClimbAbleLayer:
+    serializedVersion: 2
+    m_Bits: 832
+  m_GroundDetectionSize: {x: 0.6, y: 0}
+  m_LedgeDetectionSize: {x: 0.1, y: 0}
+  m_WallDetectionSize: {x: 0, y: 0.4}
+  m_GroundDetectionOffset: {x: 0, y: -1}
+  m_RightLedgeDetectionOffset: {x: 0.375, y: -0.295}
+  m_LeftLedgeDetectionOffset: {x: -0.375, y: -0.295}
+  m_RightWallDetectionOffset: {x: 0.325, y: -0.5}
+  m_LeftWallDetectionOffset: {x: -0.325, y: -0.5}
+  m_RayDistance: 0.2
+  m_CircleRadius: 0.2
+  m_GenerousGroundDetectionSize: {x: 0.6, y: 0.2}
+  m_GenerousWallDetectionSize: {x: 0.1, y: 0.4}
+  m_GenerousGroundDetectionOffset: {x: 0, y: -1.1}
+  m_GenerousRightWallDetectionOffset: {x: 0.375, y: -0.5}
+  m_GenerousLeftWallDetectionOffset: {x: -0.375, y: -0.5}
+  m_ClampRigidbodyVelocity: 1
+  m_MinVelocity: {x: -50, y: -15.4}
+  m_MaxVelocity: {x: 50, y: 30}
+  m_CanScreenShake: 1
+  m_CanScreenRipple: 1
+  m_CanShakeFadeOut: 1
+  m_CanShakeSnap: 0
+  m_ShakeDuration: 0.2
+  m_ShakeStrength: 0.5
+  m_ShakeVibrato: 14
+  m_ShakeRandomness: 90
