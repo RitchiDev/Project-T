@@ -32,7 +32,11 @@ public class PerlinNoise
 
 			//With the edge values known, we will now interpolate linearly to see the noise at the current x.
 			noise += (leftSample + (rightSample - leftSample) * prog);
-
+			
+			if (amplitude < 2 || frequency >= mapWidth)
+			{
+				break;
+			}
 			frequency *= 2;
 			amplitude /= 2;
 
@@ -64,13 +68,14 @@ public class PerlinNoise
 			float topEdge = (topLeftSample + (topRightSample - topLeftSample) * progX);
 
 			noise += (bottomEdge + (topEdge - bottomEdge) * progY);
-
-			frequency *= 2;
-			if (amplitude > 1)
-            {
-				amplitude /= 2;
-			}
 			
+			if (amplitude < 2 || frequency >= mapWidth)
+			{
+				break;
+			}
+			frequency *= 2;
+			amplitude /= 2;
+
 		}
 
 		return (int)Mathf.Round(noise);

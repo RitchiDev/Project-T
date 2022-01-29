@@ -281,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca310264401d074383e6b2f06391b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spectatorMapWidth: 800
-  spectatorMapHeight: 300
+  spectatorMapWidth: 4200
+  spectatorMapHeight: 1200
 --- !u!23 &520965661
 MeshRenderer:
   m_ObjectHideFlags: 0

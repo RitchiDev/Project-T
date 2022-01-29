@@ -55,7 +55,9 @@ public class PolygonGenerator : MonoBehaviour{
 		Dirt=3,
 		Mud=4,
 		Sand=5,
-		Gravel=6
+		Gravel=6,
+		Snow=7,
+		Ice=8
     }
 
 
@@ -85,26 +87,33 @@ public class PolygonGenerator : MonoBehaviour{
 				if (blocks[px + xOffset , py + yOffset] != 0)
 				{
 
-					switch (blocks[px + xOffset, py + yOffset])
+					switch ((BlockID)blocks[px + xOffset, py + yOffset])
                     {
-						case (int)BlockID.Stone:
+						case BlockID.Stone:
 							GenSquare(px, py, tStone);
 							break;
-						case (int)BlockID.Grass:
+						case BlockID.Grass:
 							GenSquare(px, py, tGrass);
 							break;
-						case (int)BlockID.Dirt:
+						case BlockID.Dirt:
 							GenSquare(px, py, tDirt);
 							break;
-						case (int)BlockID.Mud:
+						case BlockID.Mud:
 							GenSquare(px, py, tMud);
 							break;
-						case (int)BlockID.Sand:
+						case BlockID.Sand:
 							GenSquare(px, py, tSand);
 							break;
-						case (int)BlockID.Gravel:
+						case BlockID.Gravel:
 							GenSquare(px, py, tGravel);
 							break;
+						case BlockID.Snow:
+							GenSquare(px, py, tSnow);
+							break;
+						case BlockID.Ice:
+							GenSquare(px, py, tIce);
+							break;
+						default : break;
 
 					}
 
