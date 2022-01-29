@@ -9,7 +9,7 @@ public class GameMaster : MonoBehaviour
 	[SerializeField] private int spectatorMapHeight = 200;
 	public static int mapWidth;
 	public static int mapHeight;
-	public static byte[,] blocks;
+	public static int[,] blocks;
 	public static long worldseed;
 
 	// Use this for initialization
@@ -20,7 +20,7 @@ public class GameMaster : MonoBehaviour
 		mapWidth = spectatorMapWidth;
 		worldseed = (long)Random.Range(-1000000000000, 1000000000000);
 
-		blocks = new byte[mapWidth, mapHeight];
+		blocks = new int[mapWidth, mapHeight];
 
 		for (int x = 0; x < blocks.GetLength(0); x++)
 		{
