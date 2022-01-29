@@ -15,8 +15,9 @@ public class PerlinNoise{
 		for (int currentOctave = 0; currentOctave < octaves; currentOctave++)
 		{
 			int sampleDistance = (mapWidth / frequency); //How big is chunksize used for assigning a noise value?
-			int currentChunk = (int)Mathf.Floor(x / sampleDistance); //In what chunk does x currently reside?
-			int chunkIndex = x % sampleDistance;
+			int offSet = Mathf.RoundToInt(sampleDistance / 3);
+			int currentChunk = (int)Mathf.Floor(((x + offSet) / sampleDistance)); //In what chunk does x currently reside?
+			int chunkIndex = (x + offSet) % sampleDistance;
 			float prog = (float)chunkIndex / sampleDistance; //How far into that chunk are we?
 
 			int leftSample = RandomNum(currentOctave, sampleDistance, currentChunk, amplitude, seed);
@@ -29,17 +30,18 @@ public class PerlinNoise{
 			//Debug.Log("lS is : " + leftSample);
 			//Debug.Log("rS is : " + rightSample);
 
-			//With the edge values know, we will now interpolate linearly to see the noise at the current x.
+			//With the edge values known, we will now interpolate linearly to see the noise at the current x.
 			noise += (leftSample + (rightSample - leftSample) * prog);
 
 			frequency *= 2;
 			amplitude /= 2;
+			
 		}
 		return (int)Mathf.Round (noise);
 		
 	}
 	public static int RandomNum (int octave, int size, int currentChunk, int scale, long seed){
-		int value = Mathf.Abs((int)((seed + octave + currentChunk + size) * 7) % scale);
+		int value = Mathf.Abs((int)(seed + (octave + size + 13)^(currentChunk+1) * 60943) % scale);
 		Debug.Log(value + "RandomNum");
 		return value;
 	}
