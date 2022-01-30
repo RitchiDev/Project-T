@@ -43,8 +43,8 @@ public class ChunkMaster : MonoBehaviour {
 			for (int chunkY = 0; chunkY < chunks.GetLength(1); chunkY++)
 			{
 				GameObject chunkToUpdate = chunks[chunkX, chunkY];
-				chunkToUpdate.GetComponent<PolygonGenerator>().BuildMesh();
-				chunkToUpdate.GetComponent<PolygonGenerator>().UpdateMesh();
+				//chunkToUpdate.GetComponent<PolygonGenerator>().BuildMesh();
+				//chunkToUpdate.GetComponent<PolygonGenerator>().UpdateMesh();
 			}
 		}
 

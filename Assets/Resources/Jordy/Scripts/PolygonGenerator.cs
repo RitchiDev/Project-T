@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PolygonGenerator : MonoBehaviour{
@@ -12,7 +13,7 @@ public class PolygonGenerator : MonoBehaviour{
 	public List<Vector3> 	colVertices =	new List<Vector3> ();
 	public List<int> 		colTriangles = 	new List<int> ();
 	public int colCount;
-	public MeshCollider col;
+	public PolygonCollider2D col;
 
 	static float 	tUnit = 0.2f;
 	static Vector2 tMud = 			new Vector2(0, 0);
@@ -71,7 +72,7 @@ public class PolygonGenerator : MonoBehaviour{
 
 		blocks = GameMaster.blocks;
 		mesh = GetComponent<MeshFilter>().mesh;
-		col = GetComponent<MeshCollider>();
+		col = GetComponent<PolygonCollider2D>();
 		//print("Chunk at: " + xOffset + " , " + yOffset);
 
 	}
@@ -241,7 +242,27 @@ public class PolygonGenerator : MonoBehaviour{
 		Mesh newMesh = new Mesh();
 		newMesh.vertices = colVertices.ToArray();
 		newMesh.triangles = colTriangles.ToArray();
-		col.sharedMesh = newMesh;
+		col.pathCount = 1;
+		List<Vector3> vertices = new List<Vector3>();
+		newMesh.GetVertices(vertices);
+		List<EdgeHelpers.Edge> boundaryPath = EdgeHelpers.GetEdges(newMesh.triangles).FindBoundary().SortEdges();
+
+		Vector3[] yourVectors = new Vector3[boundaryPath.Count];
+		for (int i = 0; i < boundaryPath.Count; i++)
+		{
+			yourVectors[i] = vertices[boundaryPath[i].v1];
+		}
+
+		List<Vector2> newColliderVertices = new List<Vector2>();
+
+		for (int i = 0; i < yourVectors.Length; i++)
+		{
+			newColliderVertices.Add(new Vector2(yourVectors[i].x, yourVectors[i].y));
+		}
+
+		Vector2[] newPoints = newColliderVertices.Distinct().ToArray();
+
+		col.SetPath(0, newPoints);
 
 		colVertices.Clear();
 		colTriangles.Clear();
