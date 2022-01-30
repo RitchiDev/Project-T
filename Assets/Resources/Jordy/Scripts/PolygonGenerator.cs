@@ -7,7 +7,7 @@ public class PolygonGenerator : MonoBehaviour{
 	public List<Vector3> newVertices = new List<Vector3> ();
 	public List<int> newTriangles = new List<int> ();
 	public List<Vector2> newUV = new List<Vector2> ();
-	public byte[,] blocks;
+	public int[,] blocks;
 
 	public List<Vector3> 	colVertices =	new List<Vector3> ();
 	public List<int> 		colTriangles = 	new List<int> ();
@@ -47,6 +47,19 @@ public class PolygonGenerator : MonoBehaviour{
 	int xOffset;
 	int yOffset;
 
+	public enum BlockID
+    {
+		Air=0,
+		Stone=1,
+		Grass=2,
+		Dirt=3,
+		Mud=4,
+		Sand=5,
+		Gravel=6,
+		Snow=7,
+		Ice=8
+    }
+
 
 	// Use this for initialization
 	void Awake()
@@ -74,17 +87,34 @@ public class PolygonGenerator : MonoBehaviour{
 				if (blocks[px + xOffset , py + yOffset] != 0)
 				{
 
-					if (blocks[px + xOffset, py + yOffset] == 1)
-					{
-						GenSquare(px, py, tStone);
-					}
-					else if (blocks[px + xOffset, py + yOffset] == 2)
-					{
-						GenSquare(px, py, tGrass);
-					}
-					else if (blocks[px + xOffset, py + yOffset] == 3)
-					{
-						GenSquare(px, py, tDirt);
+					switch ((BlockID)blocks[px + xOffset, py + yOffset])
+                    {
+						case BlockID.Stone:
+							GenSquare(px, py, tStone);
+							break;
+						case BlockID.Grass:
+							GenSquare(px, py, tGrass);
+							break;
+						case BlockID.Dirt:
+							GenSquare(px, py, tDirt);
+							break;
+						case BlockID.Mud:
+							GenSquare(px, py, tMud);
+							break;
+						case BlockID.Sand:
+							GenSquare(px, py, tSand);
+							break;
+						case BlockID.Gravel:
+							GenSquare(px, py, tGravel);
+							break;
+						case BlockID.Snow:
+							GenSquare(px, py, tSnow);
+							break;
+						case BlockID.Ice:
+							GenSquare(px, py, tIce);
+							break;
+						default : break;
+
 					}
 
 					GenCollider(px , py);
@@ -93,7 +123,7 @@ public class PolygonGenerator : MonoBehaviour{
 		}
 	}
 
-	byte Block(int x, int y)
+	int Block(int x, int y)
 	{
 
 		if (x + xOffset == -1 || x + xOffset == blocks.GetLength(0) || y + yOffset == -1 || y + yOffset == blocks.GetLength(1))

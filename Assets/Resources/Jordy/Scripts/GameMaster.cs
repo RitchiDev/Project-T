@@ -2,32 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMaster : MonoBehaviour {
+public class GameMaster : MonoBehaviour 
+{
 
 	[SerializeField] private int spectatorMapWidth = 1800;
 	[SerializeField] private int spectatorMapHeight = 200;
 	public static int mapWidth;
 	public static int mapHeight;
-	public static byte[,] blocks;
+	public static int[,] blocks;
 	public static long worldseed;
 
 	// Use this for initialization
-	void Awake () {
+	void Awake () 
+	{
 
 		mapHeight = spectatorMapHeight;
 		mapWidth = spectatorMapWidth;
 		worldseed = (long)Random.Range(-1000000000000, 1000000000000);
 
-		blocks = new byte[mapWidth, mapHeight];
+		blocks = new int[mapWidth, mapHeight];
 
 		for (int x = 0; x < blocks.GetLength(0); x++)
-        {
-			int surfaceLayer = PerlinNoise.Noise(x, 1, mapWidth, worldseed);
-			Debug.Log(surfaceLayer + "SURFACE");
-			int terrainHeight = surfaceLayer + 20;
+		{
+			int surfaceLayer = PerlinNoise.Noise1D(x, 150, 16, mapWidth, worldseed);
+			//Debug.Log(surfaceLayer + "SURFACE");
+			int terrainHeight = surfaceLayer + 800;
 			print(terrainHeight);
 			for (int y = 0; y < blocks.GetLength(1); y++)
-            {
+			{
 				if (y == terrainHeight)
 				{
 					blocks[x, y] = 2; //grass
@@ -44,9 +46,27 @@ public class GameMaster : MonoBehaviour {
 				{
 					blocks[x, y] = 0; //air
 				}
-            }
-        }
-		
+
+				int dirtLump = PerlinNoise.Noise2D(x, y, 40, 400, mapWidth, worldseed);
+				//Debug.Log(cave + " cave");
+				if (dirtLump < 15 && blocks[x, y] == 1)
+				{
+					blocks[x, y] = 3;
+				}
+				int largeCavern = PerlinNoise.Noise2D(x, y, 100, 100, mapWidth, worldseed);
+				if (largeCavern < 55 && blocks[x,y] != 0 && y < 800)
+                {
+					blocks[x, y] = 0;
+                }
+				int smallCavern = PerlinNoise.Noise2D(x, y, 32, 40, mapWidth, worldseed);
+				if (smallCavern < (13) && blocks[x, y] != 0 && blocks[x, y] != 2)
+				{
+					blocks[x, y] = 0;
+				}
+
+			}
+
+		}
 	}
 	
 	// Update is called once per frame
