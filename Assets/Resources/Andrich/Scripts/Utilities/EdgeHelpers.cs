@@ -5,6 +5,20 @@ using UnityEngine;
 public static class EdgeHelpers
 {
 	/*
+		Vector3[] vertices = newMesh.vertices;
+        Vector2[] vertices2d = new Vector2[vertices.Length];
+
+        for (var i = 0; i < vertices.Length; i++)
+        {
+        	vertices2d[i] = new Vector2(vertices[i].x, vertices[i].y);
+        }
+
+        vertices2d = vertices2d.Distinct().ToArray();
+
+        col.points = vertices2d;
+	*/
+
+	/*
 		col.pathCount = 1;
 		List<Vector3> vertices = new List<Vector3>();
 		newMesh.GetVertices(vertices);
