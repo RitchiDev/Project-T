@@ -21,8 +21,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Input")]
     [SerializeField] private PlayerInputHandler m_InputHandler;
-    private Vector2 m_MovementInput;
-    private Vector2 m_AimInput;
 
     [Header("Avatar")]
     [SerializeField] private Camera m_Camera;
@@ -45,7 +43,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Climb")]
     private bool m_IsClimbing;
-    private bool m_HoldingClimb;
     private bool m_AllowClimbing;
     private bool m_IsClimbJumping;
     private bool m_IsLedgeHopping;
@@ -55,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash")]
     private int m_DashesAvailable;
     private bool m_IsDashing;
-    private bool m_TriggerDash;
 
     [Header("Push")]
 
@@ -213,9 +209,9 @@ public class PlayerMovement : MonoBehaviour
         m_IsWallJumping = false;
         m_IsClimbJumping = false;
 
-        float climbSpeed = m_MovementInput.y > 0 ? m_Settings.ClimbUpSpeed : m_Settings.ClimbDownSpeed;
+        float climbSpeed = m_InputHandler.Vertical > 0 ? m_Settings.ClimbUpSpeed : m_Settings.ClimbDownSpeed;
 
-        m_Rigidbody.velocity = new Vector2(m_Rigidbody.velocity.x, m_MovementInput.y * climbSpeed);
+        m_Rigidbody.velocity = new Vector2(m_Rigidbody.velocity.x, m_InputHandler.Vertical * climbSpeed);
 
         if (m_GenerousOnRightWall)
         {
@@ -322,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        float push = m_MovementInput.x != 0 ? 0 : m_Rigidbody.velocity.x;
+        float push = m_InputHandler.Horizontal != 0 ? 0 : m_Rigidbody.velocity.x;
         float slideSpeed = m_Settings.SlideSpeed;
         //float slideSpeed = m_MovementInput.y >= 0 ? m_Settings.SlideSpeed : m_Settings.SlideSpeed * m_Settings.SlideSpeedMultiplier;
 
@@ -373,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (m_GoingToJump) // Jump Buffer Started
         {
-            if (m_GenerousOnWall && !m_GenerousOnGround && !m_HoldingClimb && !m_OnPlatform) // Check for wall jump
+            if (m_GenerousOnWall && !m_GenerousOnGround && !m_InputHandler.GetClimb && !m_OnPlatform) // Check for wall jump
             {
                 if (m_Settings.CanWallJump)
                 {
@@ -466,7 +462,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        m_IsClimbing = m_HoldingClimb && m_OnClimbAble ? true : false;
+        m_IsClimbing = m_InputHandler.GetClimb && m_OnClimbAble ? true : false;
     }
 
     private void CheckForDash()
@@ -476,18 +472,19 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (m_TriggerDash && m_DashesAvailable > 0)
+        if (m_InputHandler.GetDashDown && m_DashesAvailable > 0)
         {
             float xDirection = 0;
-            if (m_MovementInput == Vector2.zero || m_MovementInput.y < 0 && m_OnGround || m_MovementInput.y < 0 && m_OnPlatform)
+            if (m_InputHandler.Horizontal == 0 && m_InputHandler.Vertical == 0 || m_InputHandler.Vertical < 0 && m_OnGround || m_InputHandler.Vertical < 0 && m_OnPlatform)
             {
                 xDirection = m_FacingRight ? 1f : -1f;
             }
             else
             {
-                xDirection = m_MovementInput.x;
+                xDirection = m_InputHandler.Horizontal;
             }
-            Vector2 dashDirection = new Vector2(xDirection, m_MovementInput.y);
+
+            Vector2 dashDirection = new Vector2(xDirection, m_InputHandler.Vertical);
 
             Dash(dashDirection.normalized);
         }
@@ -495,14 +492,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckForWallSlide()
     {
-        if (!m_Settings.CanWallSlide || m_IsJumping || m_HoldingClimb || m_IsDashing)
+        if (!m_Settings.CanWallSlide || m_IsJumping || m_InputHandler.GetClimb || m_IsDashing)
         {
             return;
         }
 
         if (!m_OnGround && !m_IsJumping && !m_OnPlatform)
         {
-            if (m_MovementInput.x < 0 && m_OnLeftWall || m_MovementInput.x > 0 && m_OnRightWall)
+            if (m_InputHandler.Horizontal < 0 && m_OnLeftWall || m_InputHandler.Horizontal > 0 && m_OnRightWall)
             {
                 WallSlide();
             }
@@ -562,17 +559,19 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        float xDirection = m_InputHandler.Horizontal;
+
         if (m_OnGround && !m_IsClimbing || m_OnPlatform && !m_IsClimbing)
         {
             if (m_Rigidbody.velocity.y <= 0.5f)
             {
-                if (m_MovementInput.x != 0)
+                if (xDirection != 0)
                 {
-                    if (m_MovementInput.x > 0 && m_OnRightWall || m_MovementInput.x < 0 && m_OnLeftWall)
+                    if (xDirection > 0 && m_OnRightWall || xDirection < 0 && m_OnLeftWall)
                     {
                         SetActionState(PlayerStates.pushing);
                     }
-                    else if (m_MovementInput.x > 0 && m_AimInput.x < 0 || m_MovementInput.x < 0 && m_AimInput.x > 0)
+                    else if (xDirection > 0 && m_InputHandler.HorizontalAim < 0 || xDirection < 0 && m_InputHandler.HorizontalAim > 0)
                     {
                         SetActionState(PlayerStates.runningBackwards);
                     }
@@ -581,11 +580,11 @@ public class PlayerMovement : MonoBehaviour
                         SetActionState(PlayerStates.runningForward);
                     }
                 }
-                else if (m_MovementInput.x == 0)
+                else if (xDirection == 0)
                 {
-                    if (m_MovementInput.y < 0)
+                    if (m_InputHandler.Vertical < 0)
                     {
-                        if (m_FacingRight && m_AimInput.x < 0 || !m_FacingRight && m_AimInput.x > 0)
+                        if (m_FacingRight && m_InputHandler.HorizontalAim < 0 || !m_FacingRight && m_InputHandler.HorizontalAim > 0)
                         {
                             SetActionState(PlayerStates.duckingBackwards);
                         }
@@ -594,7 +593,7 @@ public class PlayerMovement : MonoBehaviour
                             SetActionState(PlayerStates.duckingForward);
                         }
                     }
-                    else if (m_FacingRight && m_AimInput.x < 0 || !m_FacingRight && m_AimInput.x > 0)
+                    else if (m_FacingRight && m_InputHandler.HorizontalAim < 0 || !m_FacingRight && m_InputHandler.HorizontalAim > 0)
                     {
                         SetActionState(PlayerStates.idleBackwards);
                     }
@@ -607,7 +606,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!m_OnGround && !m_IsClimbing && !m_OnPlatform)
         {
-            if (m_MovementInput.x > 0 && m_OnRightWall && !m_IsJumping || m_MovementInput.x < 0 && m_OnLeftWall && !m_IsJumping)
+            if (xDirection > 0 && m_OnRightWall && !m_IsJumping || xDirection < 0 && m_OnLeftWall && !m_IsJumping)
             {
                 SetActionState(PlayerStates.wallSliding);
             }
@@ -625,17 +624,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (m_IsClimbing && m_OnWall)
         {
-            if (m_MovementInput.y == 0 || m_OnGround || m_OnPlatform)
+            if (m_InputHandler.Vertical == 0 || m_OnGround || m_OnPlatform)
             {
                 SetActionState(PlayerStates.climbingIdle);
             }
             else
             {
-                if (m_MovementInput.y > 0)
+                if (m_InputHandler.Vertical > 0)
                 {
                     SetActionState(PlayerStates.climbingUp);
                 }
-                else if (m_MovementInput.y < 0)
+                else if (m_InputHandler.Vertical < 0)
                 {
                     SetActionState(PlayerStates.climbingDown);
                 }
@@ -686,12 +685,6 @@ public class PlayerMovement : MonoBehaviour
 
         IEnumerator disableClimbCoroutine = DisableClimbTimer(time);
         StartCoroutine(disableClimbCoroutine);
-    }
-
-    private void StartDashTriggerTimer()
-    {
-        IEnumerator dashTriggerCoroutine = DashTriggerTimer();
-        StartCoroutine(dashTriggerCoroutine);
     }
 
     private void StartCoyoteJumpTimer()
@@ -773,15 +766,6 @@ public class PlayerMovement : MonoBehaviour
         m_GoingToJump = false;
     }
 
-    private IEnumerator DashTriggerTimer()
-    {
-        m_TriggerDash = true;
-
-        yield return new WaitForEndOfFrame();
-
-        m_TriggerDash = false;
-    }
-
     private IEnumerator LedgeHopTimer(Vector2 direction)
     {
         m_Rigidbody.velocity = Vector2.zero;
@@ -811,26 +795,6 @@ public class PlayerMovement : MonoBehaviour
         m_CoyoteJumpAvailable = false;
     }
 
-    #endregion
-
-    #region Input Context
-    public void DashContext(InputAction.CallbackContext context)
-    {
-        if (context.performed && !m_TriggerDash)
-        {
-            StartDashTriggerTimer();
-        }
-    }
-
-    public void ClimbContext(InputAction.CallbackContext context)
-    {
-        m_HoldingClimb = context.performed;
-    }
-
-    public void AimContext(InputAction.CallbackContext context)
-    {
-        m_AimInput = context.ReadValue<Vector2>();
-    }
     #endregion
 
     #region Other Functions
@@ -869,12 +833,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (m_MovementInput.x > 0)
+        if (m_InputHandler.Horizontal > 0)
         {
             m_FacingRight = true;
             m_SpriteRenderer.flipX = false;
         }
-        else if (m_MovementInput.x < 0)
+        else if (m_InputHandler.Horizontal < 0)
         {
             m_FacingRight = false;
             m_SpriteRenderer.flipX = true;

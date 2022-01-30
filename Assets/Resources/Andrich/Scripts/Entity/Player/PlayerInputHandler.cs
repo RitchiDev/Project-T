@@ -51,8 +51,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         GetJump = context.performed;
 
-        Debug.Log("Performed " + GetJumpDown);
-
         if (context.performed && !GetJumpDown)
         {
             StartCoroutine(GetJumpButtonDownTimer());
@@ -104,8 +102,6 @@ public class PlayerInputHandler : MonoBehaviour
     private IEnumerator GetJumpButtonDownTimer()
     {
         GetJumpDown = true;
-
-        Debug.Log(GetJumpDown);
 
         yield return new WaitForEndOfFrame();
 
