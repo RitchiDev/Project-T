@@ -79,6 +79,10 @@ public class PolygonGenerator : MonoBehaviour{
 
 	public void BuildMesh()
 	{
+		List<Vector2> emptyPath = new List<Vector2>();
+		emptyPath.Clear();
+		col.SetPath(0, emptyPath.ToArray());
+
 		for (int px = 0; px < ChunkMaster.chunkSize; px++)
 		{
 			
