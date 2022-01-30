@@ -7,11 +7,12 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "b22a4b03-a5dd-4e71-af19-4c5018f85ca1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Aim",
@@ -19,7 +20,8 @@
                     "id": "30276763-0b65-401f-9f41-f7b3b9f27fd2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
@@ -27,7 +29,8 @@
                     "id": "afe0d60e-a1e8-4d81-9c6b-f22cd84825f0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Climb",
@@ -35,7 +38,8 @@
                     "id": "9df9c1e4-bd38-44f0-99d7-6603c81aab40",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Dash",
@@ -43,7 +47,8 @@
                     "id": "80f322e5-7962-480c-85b9-87a06a2d8b53",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Use Ability",
@@ -51,7 +56,8 @@
                     "id": "cb0a0db8-a8ff-41c2-b0af-d190aa49cdd6",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Duck Attack",
@@ -59,7 +65,8 @@
                     "id": "3a7de98b-4771-4088-aa0d-98f1b784a0a0",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Select Ability",
@@ -67,7 +74,8 @@
                     "id": "50b8e14a-644a-484c-9e1d-d26a7f6cdbf9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

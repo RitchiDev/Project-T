@@ -7,14 +7,18 @@ public class EntitySettings : ScriptableObject
     [SerializeField] private bool m_CanDie = false;
     [Range(1f, 100f)]
     [SerializeField] private float m_StartHealth = 6f;
-    //[Range(1f, 100f)]
-    //[SerializeField] private float m_MaxHealth = 20f;
+    [Range(1f, 100f)]
+    [SerializeField] private float m_MaxHealth = 20f;
+    [Range(0f, 100f)]
+    [SerializeField] private float m_StartArmor = 5f;
     [Range(0f, 100f)]
     [SerializeField] private float m_MaxArmor = 5f;
     [Range(0f, 10f)]
     [SerializeField] private float m_TimeInvincible = 0.6f;
     public bool CanDie => m_CanDie;
     public float StartHealth => m_StartHealth;
+    public float MaxHealth => m_MaxHealth;
+    public float StartArmor => m_StartArmor;
     public float MaxArmor => m_MaxArmor;
     public float TimeInvincible => m_TimeInvincible;
 

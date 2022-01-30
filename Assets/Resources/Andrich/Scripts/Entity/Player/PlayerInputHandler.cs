@@ -33,12 +33,6 @@ public class PlayerInputHandler : MonoBehaviour
     {
         Horizontal = context.ReadValue<Vector2>().x;
         Vertical = context.ReadValue<Vector2>().y;
-
-        if(context.canceled)
-        {
-            Horizontal = 0f;
-            Vertical = 0f;
-        }
     }
 
     public void AimContext(InputAction.CallbackContext context)

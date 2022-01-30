@@ -227,7 +227,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump(Vector2 direction)
     {
-        Debug.Log("Jump");
         if (m_Settings.CanSqueezeSprite)
         {
             StartJumpSqueezeSpriteTimer();
@@ -540,12 +539,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (m_InputHandler.GetJumpDown && m_InputHandler.GetJump)
         {
-            Debug.Log("Starting Jump Buffer");
-
             if (!m_GoingToJump)
             {
-                Debug.Log("Going To Jump");
-
                 StartJumpBufferTimer();
             }
         }

@@ -22,13 +22,10 @@ public class PlayerEntity : MonoBehaviour
     [SerializeField] private GameObject m_Avatar;
     private SpriteRenderer m_SpriteRenderer;
     private Rigidbody2D m_Rigidbody;
-    private Vector2 m_OriginalSize;
     private Animator m_Animator;
-    private bool m_FacingRight;
 
     [Header("Entity")]
     private bool m_IsInvincible;
-    private float m_MaxHealth;
     private float m_Health;
     private float m_Armor;
     #endregion
@@ -38,9 +35,6 @@ public class PlayerEntity : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody2D>();
         m_SpriteRenderer = m_Avatar.GetComponent<SpriteRenderer>();
         m_Animator = m_Avatar.GetComponent<Animator>();
-        m_OriginalSize = m_Avatar.transform.localScale;
-
-        m_CurrentState = PlayerStates.inAir;
 
         //if(true)
         //{
@@ -50,8 +44,7 @@ public class PlayerEntity : MonoBehaviour
 
     private void Start()
     {
-        m_MaxHealth = m_Settings.StartHealth;
-        m_Health = m_MaxHealth;
+        m_Health = m_Settings.StartHealth;
     }
 
     private IEnumerator GiveInvincibility(float timeInvincible)
@@ -92,7 +85,7 @@ public class PlayerEntity : MonoBehaviour
             StartCoroutine(GiveInvincibility(m_Settings.TimeInvincible));
         }
 
-        m_Health = Mathf.Clamp(m_Health + remainingAmount, 0, m_MaxHealth); // Houdt het getal tussen de minimum en het maximum
+        m_Health = Mathf.Clamp(m_Health + remainingAmount, 0, m_Settings.MaxHealth); // Houdt het getal tussen de minimum en het maximum
 
 
         if(!m_Settings.CanDie)
